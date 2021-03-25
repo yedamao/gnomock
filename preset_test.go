@@ -62,7 +62,7 @@ func TestPreset_containerRemainsIfDebug(t *testing.T) {
 	p := &testPreset{testImage}
 	container, err := gnomock.Start(
 		p,
-		gnomock.WithTimeout(time.Second*15),
+		gnomock.WithTimeout(time.Second*10),
 		gnomock.WithDebugMode(),
 	)
 	require.Error(t, err)
