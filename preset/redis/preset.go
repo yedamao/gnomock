@@ -12,6 +12,7 @@ import (
 	"github.com/orlangure/gnomock/internal/registry"
 )
 
+const defaultImageName = "docker.io/library/redis"
 const defaultVersion = "6.0.9"
 
 func init() {
@@ -33,13 +34,14 @@ func Preset(opts ...Option) gnomock.Preset {
 
 // P is a Gnomock Preset implementation for Redis storage
 type P struct {
-	Values  map[string]interface{} `json:"values"`
-	Version string                 `json:"version"`
+	Values    map[string]interface{} `json:"values"`
+	ImageName string                 `json:"image_name"`
+	Version   string                 `json:"version"`
 }
 
 // Image returns an image that should be pulled to create this container
 func (p *P) Image() string {
-	return fmt.Sprintf("docker.io/library/redis:%s", p.Version)
+	return fmt.Sprintf("%s:%s", p.ImageName, p.Version)
 }
 
 // Ports returns ports that should be used to access this container
@@ -77,6 +79,10 @@ func (p *P) Options() []gnomock.Option {
 }
 
 func (p *P) setDefaults() {
+	if p.ImageName == "" {
+		p.ImageName = defaultImageName
+	}
+
 	if p.Version == "" {
 		p.Version = defaultVersion
 	}

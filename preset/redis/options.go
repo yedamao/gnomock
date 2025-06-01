@@ -13,6 +13,13 @@ func WithValues(vs map[string]interface{}) Option {
 	}
 }
 
+// WithImageName sets image name.
+func WithImageName(imageName string) Option {
+	return func(p *P) {
+		p.ImageName = imageName
+	}
+}
+
 // WithVersion sets image version.
 func WithVersion(version string) Option {
 	return func(o *P) {

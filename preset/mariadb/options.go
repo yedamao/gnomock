@@ -38,6 +38,13 @@ func WithQueriesFile(file string) Option {
 	}
 }
 
+// WithImageName sets image name.
+func WithImageName(imageName string) Option {
+	return func(p *P) {
+		p.ImageName = imageName
+	}
+}
+
 // WithVersion sets image version.
 func WithVersion(version string) Option {
 	return func(o *P) {

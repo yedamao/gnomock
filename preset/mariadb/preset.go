@@ -19,6 +19,7 @@ const defaultPassword = "gnoria"
 const defaultDatabase = "mydb"
 const defaultPort = 3306
 const defaultVersion = "10.5.8"
+const defaultImageName = "docker.io/library/mariadb"
 
 var setLoggerOnce sync.Once
 
@@ -49,12 +50,13 @@ type P struct {
 	Password     string   `json:"password"`
 	Queries      []string `json:"queries"`
 	QueriesFiles []string `json:"queries_files"`
+	ImageName    string   `json:"image_name"`
 	Version      string   `json:"version"`
 }
 
 // Image returns an image that should be pulled to create this container
 func (p *P) Image() string {
-	return fmt.Sprintf("docker.io/library/mariadb:%s", p.Version)
+	return fmt.Sprintf("%s:%s", p.ImageName, p.Version)
 }
 
 // Ports returns ports that should be used to access this container
@@ -169,6 +171,10 @@ func (p *P) setDefaults() {
 
 	if p.Password == "" {
 		p.Password = defaultPassword
+	}
+
+	if p.ImageName == "" {
+		p.ImageName = defaultImageName
 	}
 
 	if p.Version == "" {
